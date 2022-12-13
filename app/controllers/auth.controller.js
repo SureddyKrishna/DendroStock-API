@@ -88,38 +88,6 @@ exports.signin = async (req, res) => {
 };
 
 
-
-exports.comments = async (req, res) => {  
-  // Save user feedback to Database
-  try {
-    const feedback = await this.comments.create({
-      username: req.body.username,
-      email: req.body.email,
-      comment: req.body.comment,
-    });
-
-    // if (req.body.roles) {
-    //   const roles = await Role.findAll({
-    //     where: {
-    //       name: {
-    //         [Op.or]: req.body.roles,
-    //       },
-    //     },
-    //   });
-
-      const result = user.setRoles(roles);
-      if (feedback) res.send({ message: "User registered successfully!" });
-    //else {
-    //   // user has role = 1
-    //   const result = user.setRoles([1]);
-    //   if (result) res.send({ message: "User registered successfully!" });
-    // }
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
-};
-
-
 exports.signout = async (req, res) => {
   try {
     req.session = null;
