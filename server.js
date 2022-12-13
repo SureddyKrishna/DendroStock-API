@@ -21,21 +21,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   cookieSession({
     name: "krishna-session",
-     // keys: ['key1', 'key2'],
     secret: "COOKIE_SECRET", // should use as secret environment variable
     httpOnly: true
   })
 );
 
+
 // dummy code need to look later if use full
 const db = require("./app/models");
 const Role = db.role;
-
-// BELOW Code can be use in developement to drop the table data in DB and re-sync DB.
-// db.sequelize.sync({force: true}).then(() => {
-//   console.log('Drop and Resync Db');
-//   initial();
-// });
 
 
 // Below line insert rows manually into database and avoid dropping data.
@@ -61,12 +55,13 @@ function initial() {
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to Dendro application." });
+  res.json({ message: "Welcome to Dendro Stock application." });
 });
 
 // routes
 require('./app/routes/auth.routes')(app);
 require('./app/routes/user.routes')(app);
+require("./app/routes/plant.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

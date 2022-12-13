@@ -15,6 +15,8 @@ exports.signup = async (req, res) => {
       username: req.body.username,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password, 8),
+      question: req.body.question,
+      answer: req.body.answer
     });
 
     if (req.body.roles) {
@@ -85,6 +87,8 @@ exports.signin = async (req, res) => {
   }
 };
 
+
+
 exports.comments = async (req, res) => {  
   // Save user feedback to Database
   try {
@@ -115,6 +119,7 @@ exports.comments = async (req, res) => {
   }
 };
 
+
 exports.signout = async (req, res) => {
   try {
     req.session = null;
@@ -124,4 +129,25 @@ exports.signout = async (req, res) => {
   } catch (err) {
     this.next(err);
   }
+};
+
+
+exports.forgotPassword = (req, res) => {
+  const username = req.params.id;
+
+  User.findByPk(username)
+    .then(data => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `Cannot find User with username=${username}.`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving User with id=" + username
+      });
+    });
 };
